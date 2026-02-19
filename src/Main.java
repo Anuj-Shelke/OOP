@@ -2,17 +2,13 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        System.out.println("Program to Print Numbers from 100 to 200 ");
+        for (int i = 100; i< 201; i++){
+            System.out.println(i);
+            i = i++;
+        }
 
-        Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter first number: ");
-        int num1 = sc.nextInt();
 
-        System.out.print("Enter second number: ");
-        int num2 = sc.nextInt();
-
-        int sum = num1 + num2;
-
-        System.out.println("Sum = " + sum);
     }
 }
