@@ -1,15 +1,12 @@
 import java.sql.SQLOutput;
 import java.util.Scanner;
 
-class square{
-    int factorial(int n ){
-        if(n== 0 || n == 1 ){
-            return 1;
-        }
-        else{
-           return n * factorial(n-1);
-        }
+class mul {
+    void table(int num) {
+        for (int i = 0; i < 11; i++) {
+            System.out.println(num + " x " + i + "=" + (num * i));
 
+        }
     }
 }
 
@@ -17,15 +14,22 @@ class square{
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println(" Program to Factorial of a number    ");
-         square obj  = new square() ;
-         int fact = obj.factorial(2);
+        System.out.println(" Program to Print Multiplication Table of a Number using Method    ");
+        mul obj = new mul();
+        System.out.println("Enter the number You want the multiplication table of ");
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
 
 
-        System.out.println("The Factorial of the number is  : "+fact  );
+        obj.table(n);
+    }
+
+
+
+
 
 
 
 
     }
-}
+
