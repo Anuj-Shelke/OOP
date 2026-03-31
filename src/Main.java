@@ -1,19 +1,19 @@
-import java.sql.SQLOutput;
+class Animal{
+    void eats() {
+        System.out.println("Animal eats Food");
+    }
+}
+class Dog extends Animal{
+    void barks(){
+        System.out.println("The dog is Barking");
+    }
 
-class Pen{
-    String color ;
-    String type ;
-    public void write(){
-        System.out.println("Writing Something ");
+}
+public class Main{
+    public static void main(String[] args) {
+        Dog d = new Dog();
+        d.barks();
+        d.eats();
     }
 }
-public class Main {
-public static void main(String[] args){
-    Pen pen1 = new Pen();
-    pen1.color = "red";
-    pen1.type = "Ball";
-    System.out.println(pen1.color);
-    System.out.println(pen1.type);
-    pen1.write();
-    }
-}
+
