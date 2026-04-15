@@ -1,24 +1,27 @@
-interface animal {
-    void sound();
+import org.w3c.dom.ls.LSOutput;
+
+abstract class animal{
+    abstract void sound();
 }
-class dog implements animal{
-    public void sound(){
-        System.out.println("Dog Barks");
+
+class dog extends animal{
+    void sound(){
+        System.out.println("DOG BARKS ");
     }
 }
-class cat implements animal{
-    public void sound(){
-        System.out.println("Cat meows ");
+
+class cat extends  animal{
+    void sound(){
+        System.out.println("Cat Mews");
     }
 }
+
 public class Main{
     public static void main(String[] args){
-        animal a = new dog();
-        a.sound();
-        a = new cat();
-        a.sound();
+        dog d = new dog();
+        d.sound();
+
+        cat c = new cat();
+        c.sound();
     }
-
 }
-
-
