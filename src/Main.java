@@ -1,44 +1,63 @@
 import java.util.Scanner;
-class Main{
-    public static void main(String[] args){
+
+class Product {
+    int id, price, qty;
+    String name;
+
+    Product(int id, String name, int price, int qty) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.qty = qty;
+    }
+
+    double total() {
+        return price * qty;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        double total = 0 ;
-        try {
-            System.out.println("Enter the Number of products ");
-            int n = Integer.parseInt(sc.nextLine());
-            for (int i = 0; i < n; i++) {
-                System.out.println("Enter the price of " + i + ":");
-                double price = Double.parseDouble(sc.nextLine());
 
-                System.out.println("Enter the quantity of " + i + ":");
-                double quantity = Double.parseDouble(sc.nextLine());
+        System.out.println("Enter number of products:");
+        int n = sc.nextInt();
 
-                total = total + (price * quantity);
-            }
-            System.out.println("The Final Calculated total is " + total);
-            System.out.println("Enter the Amount paid ");
-            double Amount = Double.parseDouble(sc.nextLine());
-            double change = (Amount - total);
-            if (change < 0) {
-                throw new ArithmeticException("Insufficient payment ");
-            }
-            System.out.println("Payment Successful ");
-            System.out.println("The Change to be given is " + change);
+        double grandTotal = 0;
+
+        for (int i = 0; i < n; i++) {
+            System.out.println("Enter id:");
+            int id = sc.nextInt();
+            sc.nextLine();
+
+            System.out.println("Enter name:");
+            String name = sc.nextLine();
+
+            System.out.println("Enter price:");
+            int price = sc.nextInt();
+
+            System.out.println("Enter quantity:");
+            int qty = sc.nextInt();
+
+            Product p = new Product(id, name, price, qty);
+            grandTotal = grandTotal + p.total();
         }
 
-            catch(NumberFormatException e ){
-                System.out.println("Invalid input enter numb only ");
-            }
-            catch(ArithmeticException e ){
-                System.out.println("Error" + e.getMessage());
-            }
-            finally{
-                System.out.println("Thanks for shopping ");
-            }
-            sc.close();
+        double discount = 0;
+
+        if (grandTotal > 10000) {
+            discount = grandTotal * 0.10;
+        }
+        else if (grandTotal > 5000) {
+            discount = grandTotal * 0.05;
         }
 
+        double finalAmount = grandTotal - discount;
 
-        }
+        System.out.println("Total Amount = " + grandTotal);
+        System.out.println("Discount = " + discount);
+        System.out.println("Final Amount = " + finalAmount);
 
-
+        sc.close();
+    }
+}
