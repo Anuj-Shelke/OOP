@@ -16,7 +16,10 @@ class Book {
     }
 
     void display() {
-        System.out.println(id + " | " + name + " | Issued: " + issued);
+        System.out.println("ID: " + id);
+        System.out.println("Name: " + name);
+        System.out.println("Issued: " + issued);
+        System.out.println("-------------------");
     }
 
     void issue() {
