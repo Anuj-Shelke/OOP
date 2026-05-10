@@ -1,113 +1,83 @@
 import java.util.*;
 
-class Book {
-
-    int id;
+class Item {
     String name;
-    boolean issued;
+    double price;
+    int qty;
 
-    static int totalBooks = 0;
-
-    Book(int id, String name) {
-        this.id = id;
+    Item(String name, double price, int qty) {
         this.name = name;
-        this.issued = false;
-        totalBooks++;
+        this.price = price;
+        this.qty = qty;
     }
 
-    void display() {
-        System.out.println("ID: " + id);
-        System.out.println("Name: " + name);
-        System.out.println("Issued: " + issued);
-        System.out.println("-------------------");
-    }
-
-    void issue() {
-        if (!issued) {
-            issued = true;
-            System.out.println("Book Issued");
-        } else {
-            System.out.println("Already Issued");
-        }
-    }
-
-    void returnBook() {
-        if (issued) {
-            issued = false;
-            System.out.println("Book Returned");
-        } else {
-            System.out.println("Book was not issued");
-        }
-    }
-
-    // ✅ STATIC METHOD (IMPORTANT FIX)
-    static void showTotalBooks() {
-        System.out.println("Total Books: " + totalBooks);
+    double total() {
+        return price * qty;
     }
 }
 
 public class Main {
-
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-        ArrayList<Book> library = new ArrayList<>();
+        ArrayList<Item> cart = new ArrayList<>();
 
-        int choice, id;
-        String name;
+        int choice = 0;
 
-        do {
+        try {
+            while (choice != 4) {
 
-            System.out.println("\n1.Add  2.View  3.Issue  4.Return  5.Total  6.Exit");
-            System.out.print("Choice: ");
-            choice = sc.nextInt();
+                System.out.println("\n1.Add Item  2.View Cart  3.Total Bill  4.Exit");
+                System.out.print("Enter choice: ");
+                choice = Integer.parseInt(sc.nextLine());
 
-            switch (choice) {
+                switch (choice) {
 
-                case 1:
-                    System.out.print("ID Name: ");
-                    id = sc.nextInt();
-                    sc.nextLine();
-                    name = sc.nextLine();
+                    case 1:
+                        try {
+                            System.out.print("Enter name: ");
+                            String name = sc.nextLine();
 
-                    library.add(new Book(id, name));
-                    break;
+                            System.out.print("Enter price: ");
+                            double price = Double.parseDouble(sc.nextLine());
 
-                case 2:
-                    for (Book b : library)
-                        b.display();
-                    break;
+                            System.out.print("Enter quantity: ");
+                            int qty = Integer.parseInt(sc.nextLine());
 
-                case 3:
-                    System.out.print("Enter ID: ");
-                    id = sc.nextInt();
+                            if (price < 0 || qty < 0)
+                                throw new ArithmeticException();
 
-                    for (Book b : library)
-                        if (b.id == id)
-                            b.issue();
-                    break;
+                            cart.add(new Item(name, price, qty));
+                            System.out.println("Item added!");
+                        }
+                        catch (Exception e) {
+                            System.out.println("Invalid input!");
+                        }
+                        break;
 
-                case 4:
-                    System.out.print("Enter ID: ");
-                    id = sc.nextInt();
+                    case 2:
+                        if (cart.isEmpty())
+                            System.out.println("Cart is empty");
+                        else {
+                            for (Item i : cart)
+                                System.out.println(i.name + " | " + i.total());
+                        }
+                        break;
 
-                    for (Book b : library)
-                        if (b.id == id)
-                            b.returnBook();
-                    break;
+                    case 3:
+                        double sum = 0;
+                        for (Item i : cart)
+                            sum += i.total();
 
-                case 5:
-                    Book.showTotalBooks(); // ✅ static method call
-                    break;
+                        System.out.println("Total Bill = " + sum);
+                        break;
+                }
 
-                case 6:
-                    System.out.println("Exit");
-                    break;
-
-                default:
-                    System.out.println("Wrong Choice");
             }
-
-        } while (choice != 6);
+        }
+        finally {
+            System.out.println("Program ended");
+            sc.close();
+        }
     }
 }
