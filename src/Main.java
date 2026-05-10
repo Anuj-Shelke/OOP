@@ -1,63 +1,110 @@
-import java.util.Scanner;
+import java.util.*;
 
-class Product {
-    int id, price, qty;
+class Book {
+
+    int id;
     String name;
+    boolean issued;
 
-    Product(int id, String name, int price, int qty) {
+    static int totalBooks = 0;
+
+    Book(int id, String name) {
         this.id = id;
         this.name = name;
-        this.price = price;
-        this.qty = qty;
+        this.issued = false;
+        totalBooks++;
     }
 
-    double total() {
-        return price * qty;
+    void display() {
+        System.out.println(id + " | " + name + " | Issued: " + issued);
+    }
+
+    void issue() {
+        if (!issued) {
+            issued = true;
+            System.out.println("Book Issued");
+        } else {
+            System.out.println("Already Issued");
+        }
+    }
+
+    void returnBook() {
+        if (issued) {
+            issued = false;
+            System.out.println("Book Returned");
+        } else {
+            System.out.println("Book was not issued");
+        }
+    }
+
+    // ✅ STATIC METHOD (IMPORTANT FIX)
+    static void showTotalBooks() {
+        System.out.println("Total Books: " + totalBooks);
     }
 }
 
 public class Main {
+
     public static void main(String[] args) {
+
         Scanner sc = new Scanner(System.in);
+        ArrayList<Book> library = new ArrayList<>();
 
-        System.out.println("Enter number of products:");
-        int n = sc.nextInt();
+        int choice, id;
+        String name;
 
-        double grandTotal = 0;
+        do {
 
-        for (int i = 0; i < n; i++) {
-            System.out.println("Enter id:");
-            int id = sc.nextInt();
-            sc.nextLine();
+            System.out.println("\n1.Add  2.View  3.Issue  4.Return  5.Total  6.Exit");
+            System.out.print("Choice: ");
+            choice = sc.nextInt();
 
-            System.out.println("Enter name:");
-            String name = sc.nextLine();
+            switch (choice) {
 
-            System.out.println("Enter price:");
-            int price = sc.nextInt();
+                case 1:
+                    System.out.print("ID Name: ");
+                    id = sc.nextInt();
+                    sc.nextLine();
+                    name = sc.nextLine();
 
-            System.out.println("Enter quantity:");
-            int qty = sc.nextInt();
+                    library.add(new Book(id, name));
+                    break;
 
-            Product p = new Product(id, name, price, qty);
-            grandTotal = grandTotal + p.total();
-        }
+                case 2:
+                    for (Book b : library)
+                        b.display();
+                    break;
 
-        double discount = 0;
+                case 3:
+                    System.out.print("Enter ID: ");
+                    id = sc.nextInt();
 
-        if (grandTotal > 10000) {
-            discount = grandTotal * 0.10;
-        }
-        else if (grandTotal > 5000) {
-            discount = grandTotal * 0.05;
-        }
+                    for (Book b : library)
+                        if (b.id == id)
+                            b.issue();
+                    break;
 
-        double finalAmount = grandTotal - discount;
+                case 4:
+                    System.out.print("Enter ID: ");
+                    id = sc.nextInt();
 
-        System.out.println("Total Amount = " + grandTotal);
-        System.out.println("Discount = " + discount);
-        System.out.println("Final Amount = " + finalAmount);
+                    for (Book b : library)
+                        if (b.id == id)
+                            b.returnBook();
+                    break;
 
-        sc.close();
+                case 5:
+                    Book.showTotalBooks(); // ✅ static method call
+                    break;
+
+                case 6:
+                    System.out.println("Exit");
+                    break;
+
+                default:
+                    System.out.println("Wrong Choice");
+            }
+
+        } while (choice != 6);
     }
 }
