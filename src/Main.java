@@ -1,83 +1,99 @@
+import java.io.*;
 import java.util.*;
 
-class Item {
-    String name;
-    double price;
-    int qty;
-
-    Item(String name, double price, int qty) {
-        this.name = name;
-        this.price = price;
-        this.qty = qty;
-    }
-
-    double total() {
-        return price * qty;
-    }
-}
-
 public class Main {
+
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
-        ArrayList<Item> cart = new ArrayList<>();
-
-        int choice = 0;
-
         try {
-            while (choice != 4) {
 
-                System.out.println("\n1.Add Item  2.View Cart  3.Total Bill  4.Exit");
-                System.out.print("Enter choice: ");
-                choice = Integer.parseInt(sc.nextLine());
+            // Open CSV file
+            BufferedReader br =
+                    new BufferedReader(
+                            new FileReader("patients.csv"));
 
-                switch (choice) {
+            // Skip first line
+            br.readLine();
 
-                    case 1:
-                        try {
-                            System.out.print("Enter name: ");
-                            String name = sc.nextLine();
+            String line;
 
-                            System.out.print("Enter price: ");
-                            double price = Double.parseDouble(sc.nextLine());
+            int totalAge = 0;
+            int totalBP = 0;
+            int count = 0;
 
-                            System.out.print("Enter quantity: ");
-                            int qty = Integer.parseInt(sc.nextLine());
+            ArrayList<Integer> heartRate =
+                    new ArrayList<>();
 
-                            if (price < 0 || qty < 0)
-                                throw new ArithmeticException();
+            ArrayList<Integer> bloodPressure =
+                    new ArrayList<>();
 
-                            cart.add(new Item(name, price, qty));
-                            System.out.println("Item added!");
-                        }
-                        catch (Exception e) {
-                            System.out.println("Invalid input!");
-                        }
-                        break;
 
-                    case 2:
-                        if (cart.isEmpty())
-                            System.out.println("Cart is empty");
-                        else {
-                            for (Item i : cart)
-                                System.out.println(i.name + " | " + i.total());
-                        }
-                        break;
+            // Read file line by line
+            while ((line = br.readLine()) != null) {
 
-                    case 3:
-                        double sum = 0;
-                        for (Item i : cart)
-                            sum += i.total();
+                String data[] = line.split(",");
 
-                        System.out.println("Total Bill = " + sum);
-                        break;
-                }
+                int age =
+                        Integer.parseInt(data[0]);
 
+                int hr =
+                        Integer.parseInt(data[1]);
+
+                int bp =
+                        Integer.parseInt(data[2]);
+
+                totalAge = totalAge + age;
+
+                totalBP = totalBP + bp;
+
+                heartRate.add(hr);
+
+                bloodPressure.add(bp);
+
+                count++;
             }
+
+            // Average Age
+            double averageAge =
+                    (double) totalAge / count;
+
+
+            // Median Heart Rate
+            Collections.sort(heartRate);
+
+            int median =
+                    heartRate.get(count / 2);
+
+
+            // Standard Deviation
+            double mean =
+                    (double) totalBP / count;
+
+            double sd = 0;
+
+            for (int x : bloodPressure) {
+
+                sd = sd + Math.pow(x - mean, 2);
+            }
+
+            sd = Math.sqrt(sd / count);
+
+
+            // Output
+            System.out.println(
+                    "Average Age = " + averageAge);
+
+            System.out.println(
+                    "Median Heart Rate = " + median);
+
+            System.out.println(
+                    "Standard Deviation = " + sd);
+
         }
-        finally {
-            System.out.println("Program ended");
-            sc.close();
+
+        catch (Exception e) {
+
+            System.out.println(e);
         }
     }
 }
